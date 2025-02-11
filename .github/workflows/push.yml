@@ -19,8 +19,13 @@ jobs:
           go-version: 1.21
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      - name: Install docker-compose
-        run: sudo apt-get install -y docker-compose
+        with:
+          platforms: linux/amd64,linux/arm64
+          install: true
+      - name: Get Docker versions
+        run: |
+          docker -v
+          docker compose version
       - name: Build
         run: go run build.go
         env:

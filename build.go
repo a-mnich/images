@@ -104,8 +104,9 @@ func buildVersion(
 			}
 
 			if err := runExternalProgram(
-				"docker-compose",
+				"docker",
 				[]string{
+					"compose",
 					"build",
 				},
 				env,
@@ -125,8 +126,9 @@ func buildVersion(
 			}
 
 			if err := runExternalProgram(
-				"docker-compose",
+				"docker",
 				[]string{
+					"compose",
 					"up",
 					"--abort-on-container-exit",
 					"--exit-code-from=sut",
@@ -148,8 +150,9 @@ func buildVersion(
 			}
 
 			if err := runExternalProgram(
-				"docker-compose",
+				"docker",
 				[]string{
+					"compose",
 					"down",
 				},
 				env,
@@ -207,8 +210,9 @@ func buildVersion(
 					return err
 				}
 				if err := runExternalProgram(
-					"docker-compose",
+					"docker",
 					[]string{
+						"compose",
 						"push",
 					},
 					env,
