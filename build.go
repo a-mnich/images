@@ -14,6 +14,7 @@ import (
 type registry struct {
 	UserVariable     string `yaml:"user_variable"`
 	PasswordVariable string `yaml:"password_variable"`
+	Organization     string `yaml:"organization,omitempty"`
 }
 
 func runExternalProgram(
@@ -100,8 +101,13 @@ func buildVersion(
 				fmt.Sprintf("CONTAINERSSH_VERSION=%s", version),
 				fmt.Sprintf("CONTAINERSSH_TAG=%s", tag),
 				fmt.Sprintf("GITHUB_TOKEN=%s", githubToken),
-				fmt.Sprintf("REGISTRY=%s/", registryName),
 			}
+
+			registryPrefix := registryName
+			if registry.Organization != "" {
+				registryPrefix = fmt.Sprintf("%s/%s", registryName, registry.Organization)
+			}
+			env = append(env, fmt.Sprintf("REGISTRY=%s/", registryPrefix))
 
 			if err := runExternalProgram(
 				"docker",
@@ -117,11 +123,11 @@ func buildVersion(
 				err := fmt.Errorf(
 					"build failed for version %s registry %s tag %s (%w)",
 					version,
-					registryName,
+					registryPrefix,
 					tag,
 					err,
 				)
-				writeOutput(version, registryName, tag, stdout, err)
+				writeOutput(version, registryPrefix, tag, stdout, err)
 				return err
 			}
 
@@ -141,11 +147,11 @@ func buildVersion(
 				err := fmt.Errorf(
 					"tests failed for version %s registry %s tag %s (%w)",
 					version,
-					registryName,
+					registryPrefix,
 					tag,
 					err,
 				)
-				writeOutput(version, registryName, tag, stdout, err)
+				writeOutput(version, registryPrefix, tag, stdout, err)
 				return err
 			}
 
@@ -162,11 +168,11 @@ func buildVersion(
 				err := fmt.Errorf(
 					"cleanup failed for version %s registry %s tag %s (%w)",
 					version,
-					registryName,
+					registryPrefix,
 					tag,
 					err,
 				)
-				writeOutput(version, registryName, tag, stdout, err)
+				writeOutput(version, registryPrefix, tag, stdout, err)
 				return err
 			}
 
@@ -203,10 +209,10 @@ func buildVersion(
 						"push failed for version %s tag %s registry %s (%w)",
 						version,
 						tag,
-						registryName,
+						registryPrefix,
 						err,
 					)
-					writeOutput(version, registryName, tag, stdout, err)
+					writeOutput(version, registryPrefix, tag, stdout, err)
 					return err
 				}
 				if err := runExternalProgram(
@@ -224,14 +230,14 @@ func buildVersion(
 						"push failed for version %s tag %s registry %s (%w)",
 						version,
 						tag,
-						registryName,
+						registryPrefix,
 						err,
 					)
-					writeOutput(version, registryName, tag, stdout, err)
+					writeOutput(version, registryPrefix, tag, stdout, err)
 					return err
 				}
 			}
-			writeOutput(version, registryName, tag, stdout, nil)
+			writeOutput(version, registryPrefix, tag, stdout, nil)
 		}
 	}
 
