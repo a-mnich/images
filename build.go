@@ -14,7 +14,7 @@ import (
 type registry struct {
 	UserVariable     string `yaml:"user_variable"`
 	PasswordVariable string `yaml:"password_variable"`
-	Organization     string `yaml:"organization,omitempty"`
+	OrganisationVariable     string `yaml:"organisation_variable,omitempty"`
 }
 
 func runExternalProgram(
@@ -104,8 +104,15 @@ func buildVersion(
 			}
 
 			registryPrefix := registryName
-			if registry.Organization != "" {
-				registryPrefix = fmt.Sprintf("%s/%s", registryName, registry.Organization)
+			if registry.OrganisationVariable != "" {
+				organisation := os.Getenv(registry.OrganisationVariable)
+				if organisation == "" {
+					return fmt.Errorf(
+						"cannot push: no organisation set in the %s environment variable",
+						registry.OrganisationVariable,
+					)
+				}
+				registryPrefix = fmt.Sprintf("%s/%s", registryName, organisation)
 			}
 			env = append(env, fmt.Sprintf("REGISTRY=%s/", registryPrefix))
 
