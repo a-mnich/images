@@ -30,3 +30,4 @@ jobs:
         run: go run build.go
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          GIT_B0T_AT_ORGANISATION: ${{secrets.GIT_B0T_AT_ORGANISATION}}

@@ -1,5 +1,6 @@
 name: Build & Release
 on:
+  workflow_dispatch:
   push:
     branches-ignore:
       - '*'
@@ -29,8 +30,6 @@ jobs:
         run: go run build.go --push
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-          GITHUB_USERNAME: ${{ secrets.GH_USERNAME }}
-          QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
-          QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          GIT_B0T_AT_ORGANISATION: ${{secrets.GIT_B0T_AT_ORGANISATION}}
+          GIT_B0T_AT_PASSWORD: ${{secrets.GIT_B0T_AT_PASSWORD}}
+          GIT_B0T_AT_USERNAME: ${{secrets.GIT_B0T_AT_USERNAME}}

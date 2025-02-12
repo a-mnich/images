@@ -9,9 +9,7 @@ versions:
   v0.5.0:
     - v0.5.0
 registries:
-  docker.io:
-    user_variable: DOCKER_USERNAME
-    password_variable: DOCKER_PASSWORD
-  quay.io:
-    user_variable: QUAY_USERNAME
-    password_variable: QUAY_PASSWORD
+  git.b0t.at:
+    user_variable: GIT_B0T_AT_USERNAME
+    password_variable: GIT_B0T_AT_PASSWORD
+    organisation_variable: GIT_B0T_AT_ORGANISATION
