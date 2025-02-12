@@ -225,8 +225,14 @@ func buildVersion(
 				if err := runExternalProgram(
 					"docker",
 					[]string{
-						"compose",
-						"push",
+						"buildx",
+						"build",
+						"--push",
+						"--platform", "linux/amd64,linux/arm64",
+						"--build-arg", fmt.Sprintf("CONTAINERSSH_VERSION=%s", version),
+						"--build-arg", fmt.Sprintf("CONTAINERSSH_TAG=%s", tag),
+						"-t", fmt.Sprintf("%s/containerssh:%s", registryPrefix, tag),
+						"containerssh",
 					},
 					env,
 					nil,
@@ -243,6 +249,34 @@ func buildVersion(
 					writeOutput(version, registryPrefix, tag, stdout, err)
 					return err
 				}
+				if err := runExternalProgram(
+					"docker",
+					[]string{
+						"buildx",
+						"build",
+						"--push",
+						"--platform", "linux/amd64,linux/arm64",
+						"--build-arg", fmt.Sprintf("CONTAINERSSH_VERSION=%s", version),
+						"--build-arg", fmt.Sprintf("CONTAINERSSH_TAG=%s", tag),
+						"-t", fmt.Sprintf("%s/containerssh:%s", registryPrefix, tag),
+						"containerssh-test-authconfig",
+					},
+					env,
+					nil,
+					stdout,
+					stdout,
+				); err != nil {
+					err := fmt.Errorf(
+						"push failed for version %s tag %s registry %s (%w)",
+						version,
+						tag,
+						registryPrefix,
+						err,
+					)
+					writeOutput(version, registryPrefix, tag, stdout, err)
+					return err
+				}
+
 			}
 			writeOutput(version, registryPrefix, tag, stdout, nil)
 		}
