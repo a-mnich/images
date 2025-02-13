@@ -103,7 +103,7 @@ func buildVersion(
 				fmt.Sprintf("GITHUB_TOKEN=%s", githubToken),
 			}
 
-			registryPrefix := registryName
+			registryPrefix := fmt.Sprintf("%s/containerssh", registryName)
 			if registry.OrganisationVariable != "" {
 				organisation := os.Getenv(registry.OrganisationVariable)
 				if organisation == "" {
@@ -112,7 +112,7 @@ func buildVersion(
 						registry.OrganisationVariable,
 					)
 				}
-				registryPrefix = fmt.Sprintf("%s/%s", registryName, organisation)
+				registryPrefix = fmt.Sprintf("%s/%s/containerssh" registryName, organisation)
 			}
 			env = append(env, fmt.Sprintf("REGISTRY=%s/", registryPrefix))
 
@@ -258,7 +258,7 @@ func buildVersion(
 						"--platform", "linux/amd64,linux/arm64",
 						"--build-arg", fmt.Sprintf("CONTAINERSSH_VERSION=%s", version),
 						"--build-arg", fmt.Sprintf("CONTAINERSSH_TAG=%s", tag),
-						"-t", fmt.Sprintf("%s/containerssh:%s", registryPrefix, tag),
+						"-t", fmt.Sprintf("%s/containerssh-test-authconfig:%s", registryPrefix, tag),
 						"containerssh-test-authconfig",
 					},
 					env,
