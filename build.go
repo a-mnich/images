@@ -112,7 +112,7 @@ func buildVersion(
 						registry.OrganisationVariable,
 					)
 				}
-				registryPrefix = fmt.Sprintf("%s/%s/containerssh" registryName, organisation)
+				registryPrefix = fmt.Sprintf("%s/%s/containerssh", registryName, organisation)
 			}
 			env = append(env, fmt.Sprintf("REGISTRY=%s/", registryPrefix))
 
