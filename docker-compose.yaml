@@ -10,7 +10,7 @@ services:
       args:
         CONTAINERSSH_VERSION: ${CONTAINERSSH_VERSION:?CONTAINERSSH_VERSION variable must be set.}
         GITHUB_TOKEN: ${GITHUB_TOKEN:-}
-        SOURCE_REPO: ${SOURCE_REPO:-https://github.com/ContainerSSH/ContainerSSH}
+        SOURCE_REPO: ${SOURCE_REPO:-https://github.com/a-mnich/ContainerSSH}
     volumes:
       - type: bind
         source: ./testdata/${CONTAINERSSH_VERSION:?CONTAINERSSH_VERSION variable must be set.}/config.yaml
@@ -37,7 +37,7 @@ services:
       args:
         CONTAINERSSH_VERSION: ${CONTAINERSSH_VERSION:?CONTAINERSSH_VERSION variable must be set.}
         GITHUB_TOKEN: ${GITHUB_TOKEN:-}
-        SOURCE_REPO: ${SOURCE_REPO:-https://github.com/ContainerSSH/ContainerSSH}
+        SOURCE_REPO: ${SOURCE_REPO:-https://github.com/a-mnich/ContainerSSH}
   sut:
     build: sut
     depends_on:
