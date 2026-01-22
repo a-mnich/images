@@ -1,6 +1,6 @@
 ARG CONTAINERSSH_VERSION
 ARG GITHUB_TOKEN
-ARG SOURCE_REPO=https://github.com/ContainerSSH/ContainerSSH
+ARG SOURCE_REPO=https://github.com/a-mnich/ContainerSSH
 
 FROM alpine AS download
 ARG CONTAINERSSH_VERSION
@@ -20,9 +20,9 @@ USER 1022:1022
 RUN cd /containerssh && \
     URL=${SOURCE_REPO}/releases/download/${CONTAINERSSH_VERSION}/containerssh_${CONTAINERSSH_VERSION/v/}_${TARGETOS}_${TARGETARCH}.tar.gz && \
     if [ -n "${GITHUB_TOKEN}" ]; then \
-        curl -L -o containerssh.tar.gz --header 'authorization: Bearer ${GITHUB_TOKEN}' ${URL}; \
+    curl -L -o containerssh.tar.gz --header 'authorization: Bearer ${GITHUB_TOKEN}' ${URL}; \
     else \
-        curl -vvvvv -L -o containerssh.tar.gz ${URL}; \
+    curl -vvvvv -L -o containerssh.tar.gz ${URL}; \
     fi && \
     tar -xvvzf containerssh.tar.gz && \
     rm containerssh.tar.gz

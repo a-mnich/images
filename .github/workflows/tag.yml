@@ -33,4 +33,3 @@ jobs:
           GIT_B0T_AT_ORGANISATION: ${{secrets.GIT_B0T_AT_ORGANISATION}}
           GIT_B0T_AT_PASSWORD: ${{secrets.GIT_B0T_AT_PASSWORD}}
           GIT_B0T_AT_USERNAME: ${{secrets.GIT_B0T_AT_USERNAME}}
-          SOURCE_REPO: https://github.com/a-mnich/ContainerSSH
